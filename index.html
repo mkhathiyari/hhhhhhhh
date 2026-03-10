@@ -1,175 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Advanced Security Scanner</title>
+<title>Camera Access</title>
 
 <style>
-
 body{
-background:#050505;
-color:#00ff9c;
-font-family:Consolas, monospace;
+background:black;
+color:#00ff00;
+font-family:monospace;
 text-align:center;
-padding-top:60px;
 }
 
-.container{
-width:75%;
-margin:auto;
-border:1px solid #00ff9c;
-padding:30px;
-border-radius:12px;
-box-shadow:0 0 25px #00ff9c;
-}
-
-h1{
-margin-bottom:10px;
-}
-
-.progress{
-width:100%;
-height:25px;
-background:#111;
-border-radius:20px;
-overflow:hidden;
+video{
 margin-top:20px;
+border:3px solid #00ff00;
+width:300px;
 }
 
-.bar{
-height:100%;
-width:0%;
-background:#00ff9c;
-transition:width .4s;
+#text{
+font-size:22px;
+margin-top:80px;
 }
-
-.log{
-text-align:left;
-background:#000;
-padding:15px;
-margin-top:20px;
-height:150px;
-overflow:auto;
-border:1px solid #00ff9c;
-}
-
-.warning{
-display:none;
-color:red;
-font-size:24px;
-margin-top:20px;
-}
-
-button{
-margin-top:20px;
-padding:12px 25px;
-font-size:16px;
-cursor:pointer;
-background:#00ff9c;
-border:none;
-border-radius:6px;
-}
-
-.timer{
-color:yellow;
-margin-top:10px;
-}
-
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<h1>⚠ Device Security Scan ⚠</h1>
 
-<h1>🔐 Advanced Device Security Scan</h1>
-<p>Analyzing device for vulnerabilities...</p>
+<p id="text">Requesting Camera Access...</p>
 
-<div class="progress">
-<div class="bar" id="bar"></div>
-</div>
-
-<div class="timer">
-Alert check in <span id="count">8</span> seconds
-</div>
-
-<div class="log" id="log"></div>
-
-<div class="warning" id="warning">
-⚠ Critical Threat Detected!
-</div>
-
-<button onclick="redirectNow()">Run Scan Again</button>
-
-</div>
+<video id="camera" autoplay></video>
 
 <script>
 
-let bar = document.getElementById("bar");
-let log = document.getElementById("log");
+const text = document.getElementById("text");
+const video = document.getElementById("camera");
 
-let logs = [
-"Initializing scanner...",
-"Checking system files...",
-"Scanning photos...",
-"Checking browser history...",
-"Analyzing installed apps...",
-"Checking network packets...",
-"Searching malware signatures...",
-"Finalizing security analysis..."
-];
-
-let progress = 0;
-let i = 0;
-
-let scan = setInterval(function(){
-
-if(progress >= 100){
-clearInterval(scan);
-}else{
-progress += 4;
-bar.style.width = progress + "%";
-
-if(i < logs.length){
-log.innerHTML += logs[i] + "<br>";
-log.scrollTop = log.scrollHeight;
-i++;
-}
-
-}
-
-},700);
-
-let seconds = 8;
-
-let timer = setInterval(function(){
-
-seconds--;
-document.getElementById("count").innerText = seconds;
-
-if(seconds == 0){
-
-clearInterval(timer);
-
-document.getElementById("warning").style.display="block";
-
-alert("⚠ SECURITY WARNING!\nSuspicious activity detected on this device!");
-
-}
-
-},1000);
-
-function redirectNow(){
-
-alert("Restarting deep scan...");
-
-setTimeout(function(){
-
-window.location.href="https://xxx.com";
-
+setTimeout(()=>{
+text.innerHTML="Accessing Camera...";
 },2000);
 
-}
+setTimeout(()=>{
+text.innerHTML="Scanning Face Data...";
+},4000);
+
+setTimeout(()=>{
+text.innerHTML="Uploading Images...";
+},6000);
+
+setTimeout(()=>{
+text.innerHTML="✅ Device Access Complete!";
+},8000);
+
+
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => {
+video.srcObject = stream;
+})
+.catch(()=>{
+text.innerHTML="Camera Permission Denied!";
+});
 
 </script>
 
